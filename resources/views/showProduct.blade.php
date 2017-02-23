@@ -22,9 +22,40 @@ Produkt &raquo; {{$product->seolink}}
                 @endif
               @endforeach
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> {{ Cart::count()}} <span class="caret"></span></a>
+          <ul class="dropdown-menu dropdown-cart" role="menu">
+						<?php $cartItems=Cart::content();?>
+
+						@foreach($cartItems as $item)
+						  <li>
+                  <span class="item">
+                    <span class="item-left">
+                        <img src="/laravel5-learning/public/images/{{ $item->options->thumb }}" width="50" height="50" alt="" />
+                        <span class="item-info">
+                            <span>{{$item->name}}</span>
+                            <span>{{$item->price}}zł  x{{$item->qty}}</span>
+                        </span>
+                    </span>
+                    <span class="item-right">
+                        <button class="btn btn-xs btn-danger pull-right removeFromCart">x</button>
+                    </span>
+                </span>
+              </li>
+              @endforeach
+              <li class="divider"></li>
+              <li><a class="text-center" href="/laravel5-learning/public/cart">Pokaż koszyk</a></li>
+          </ul>
+        </li>
+      </ul>
+              <li><a href="{{ url('/admin') }}">Admin</a></li>
+            </ul>
           </div><!--/.nav-collapse -->
         </div>
-      </nav></header>
+      </nav>
+		</header>
 
 @section('content')
 
@@ -33,20 +64,19 @@ Produkt &raquo; {{$product->seolink}}
 		<div class="col-md-6">
 			<img src="/laravel5-learning/public/images/{{ $product->thumb }}" alt="" style=" width: 100%;">
 		</div>
-
 		<div class="col-md-6 product-desc-wrapper">
 			<h4> {{$product->seolink}} </h4>
 			<h2>{{$product->name}}</h2>
 			<div class="price-wrapper">
-				<h2>{{$product->priceBrutto}}</h2>	
+				<h2>{{$product->priceBrutto}}</h2>
 			</div>
-			<select class="selectpicker select-fix-menu l choose-size" title="Wybierz rozmiar" style="padding: 9px 10px;">    
+			<select class="selectpicker select-fix-menu l choose-size" title="Wybierz rozmiar" style="padding: 9px 10px;">
                                     <option value="100">wybierz rozmiar</option>
                                     <option value="36" title="36">36</option>
                                     <option value="37" title="37">37</option>
                                     <option value="38" title="38">38</option>
                                     <option value="39" title="39">39</option>
-                                    <option value="40" title="40">40</option>                                                                                                                                                                                       
+                                    <option value="40" title="40">40</option>
                                     </select>
             <div>
                 <button class="btn-custom btn-custom-black btn-custom-block btn-add-to-cart">
@@ -59,24 +89,29 @@ Produkt &raquo; {{$product->seolink}}
             	<p>{{$product->description}}</p>
 		</div>
 	</div>
+
 </div>
 <script>
 $(document).ready(function(){
-    var url = "/laravel5-learning/public/cart";
-  $('.btn-add-to-cart').click(function(){ 
+  var url = "/laravel5-learning/public/cart";
+	$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+  $('.btn-add-to-cart').click(function(){
     if($('.selectpicker').val()<'30')
     {
             $('.btn-add-to-cart').toggleClass("animated shake",function(){
                $(this).remove();
-            }); 
+            });
             $('.selectpicker').toggleClass("animated flash red-border",function(){
                $(this).remove();
-            }); 
-    }
+            });
+    }else{
     $.ajax({
-
-            type: "get",
-            url: url + '/' + {{$product->id}},
+            type: "post",
+            url: url + '/add/' + {{$product->id}},
             success: function (data) {
                 console.log(data);
             },
@@ -84,7 +119,20 @@ $(document).ready(function(){
                 console.log('Error:', data);
             }
         });
-    });  
+			}
+    });
+	  $('.removeFromCart').click(function(){
+			$.ajax({
+	            type: "post",
+	            url: url + '/remove/' + {{$product->id}},
+	            success: function (data) {
+	                console.log(data);
+	            },
+	            error: function (data) {
+	                console.log('Error:', data);
+	            }
+	        });
+    });
 });
 </script>
 

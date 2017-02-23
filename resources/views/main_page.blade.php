@@ -70,6 +70,7 @@ Laravel5 | Strona glowna
       </nav>
 		</header>
 @section('content')
+
 <div class="row">
 </div>
 		<div id="carousel-example-generic" class="carousel slide main-carousel" data-ride="carousel">
@@ -116,7 +117,7 @@ Laravel5 | Strona glowna
 				<img src="{{asset('images/main-new-collection-women.jpg')}}" alt="Ona">
 				<figcaption>
 					<h3>NOWA<br/>KOLEKCJA</h3>
-					<button type="button" name="button">Dla niej</button>
+					<button type="button" name="button">Dla niej4w</button>
 				</figcaption>
 			</div>
 			<div class="col-md-6">
@@ -161,7 +162,6 @@ Laravel5 | Strona glowna
   once: true
 })
 </script>
-<script type="text/javascript" src="http://localhost:35729/livereload.js">
 
 </script>
 @endsection

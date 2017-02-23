@@ -37,6 +37,8 @@ Route::auth();
 Route::get('/cart', 'HomeController@cart');
 Route::get('/cart/{id}', 'HomeController@cartCookie');
 Route::get('/cart/get', 'HomeController@getCookie');
+Route::post('/cart/add/{id}', 'OrdersController@addToCart');
+Route::post('/cart/remove/{id}','OrdersController@removeFromCart');
 
 /* PRODUKTY  */
 Route::get('/product/{seolink}', ['uses' =>'ProductsController@showProduct']);

@@ -26,7 +26,7 @@ Laravel5 | Strona glowna
               @endforeach
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="{{ url('/admin') }}">Admin</a></li>             
+              <li><a href="{{ url('/admin') }}">Admin</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -43,6 +43,8 @@ Laravel5 | Strona glowna
 		@endif
     <button class="btn btn-primary add-to-cart">Dodaj do koszyka</button>
 	</div>
+	{{Cart::content()}}
+	
 </div>
 
 <script>

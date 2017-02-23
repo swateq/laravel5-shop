@@ -39,8 +39,8 @@ class HomeController extends Controller
     {
         $podstrony=podstrony::all();
         // Cart::add('293ad', 'Product 1', 1, 9.99);
-        Cart::destroy();
-        return view('cart')->with(['podstrony'=>$podstrony]);
+        $sklepy=shops::all();
+        return view('cart')->with(['podstrony'=>$podstrony])->with(['sklepy'=>$sklepy]);
     }
 
     public function cartCookie($id){

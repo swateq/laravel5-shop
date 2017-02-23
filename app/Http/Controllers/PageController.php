@@ -30,6 +30,7 @@ class PageController extends Controller
 
     public function showPage($name){
         $podstrony=podstrony::all();
+        $sklepy=shops::all();
 
         $podstrona = DB::table('podstrony')
                 ->select('*')
@@ -44,7 +45,6 @@ class PageController extends Controller
                 ->get();
                 $sliderImgs=explode(" ",$slider[0]->module_content);
                 $products=Products::all();
-                $sklepy=shops::all();
                 return View('main_page')
                 ->with(['content'=>'strona glowna'])
                 ->with(['podstrony'=>$podstrony])
@@ -56,7 +56,8 @@ class PageController extends Controller
             case 'kontakt':
                 return View('static.kontakt')
                 ->with(['content'=>$podstrona[0]->content])
-                ->with(['podstrony'=>$podstrony]);
+                ->with(['podstrony'=>$podstrony])
+                ->with(['sklepy'=>$sklepy]);
             break;
         }
     }
