@@ -1,0 +1,51 @@
+// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font-family: sans-serif;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+.carousel-left {
+    background-image: url(../public/images/icon-main-slider-left.png);
+}
+
+.seolink{
+	color: #989898;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.productName{
+    font-size: 19px;
+	margin-top:0px;
+}
+
+.crossed-price{
+	color: #989898;
+    position: relative;
+    display: inline-block;
+    font-size: 12px;	
+}
+
+.price{
+	color: #e4212f;
+    margin-top: -5px;
+    font-size: 19px;
+}
+
+a{
+	text-decoration: none;
+	color:white;
+}
+
+.addProduct{
+	margin-bottom: 4px; 	
+}
