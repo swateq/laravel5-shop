@@ -372,6 +372,12 @@ ul.dropdown-cart li .item-right button {
   border: none;
   text-transform: uppercase;
 }
+.item-qty {
+  float: right;
+}
+.item-qty:before {
+  content: 'x';
+}
 /* Small Devices, Tablets */
 
 /*# sourceMappingURL=app.css.map */

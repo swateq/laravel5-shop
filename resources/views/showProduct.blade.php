@@ -25,22 +25,22 @@ Produkt &raquo; {{$product->seolink}}
             <ul class="nav navbar-nav navbar-right">
               <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> {{ Cart::count()}} <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> <span class="shopping-cart-counter">{{ Cart::count()}}</span> <span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-cart" role="menu">
 						<?php $cartItems=Cart::content();?>
 
 						@foreach($cartItems as $item)
-						  <li>
+						  <li id="item{{$item->id}}">
                   <span class="item">
                     <span class="item-left">
                         <img src="/laravel5-learning/public/images/{{ $item->options->thumb }}" width="50" height="50" alt="" />
                         <span class="item-info">
                             <span>{{$item->name}}</span>
-                            <span>{{$item->price}}zł  x{{$item->qty}}</span>
+                            <span>{{$item->price}}zł<span class="item-qty">{{$item->qty}}</span></span>
                         </span>
                     </span>
                     <span class="item-right">
-                        <button class="btn btn-xs btn-danger pull-right removeFromCart">x</button>
+                        <button class="btn btn-xs btn-danger pull-right removeFromCart" value="{{$item->id}}">x</button>
                     </span>
                 </span>
               </li>
@@ -114,6 +114,27 @@ $(document).ready(function(){
             url: url + '/add/' + {{$product->id}},
             success: function (data) {
                 console.log(data);
+								$('.shopping-cart-counter').html(parseInt($('.shopping-cart-counter').html(),10)+1);
+								var product='<li id="item{{$product->id}}">';
+	              product+='<span class="item">';
+	              product+='<span class="item-left">';
+	              product+='<img src="/laravel5-learning/public/images/{{ $product->thumb }}" width="50" height="50" alt="" />';
+	              product+='<span class="item-info">';
+	              product+='<span>{{$product->name}}</span>';
+	              product+='<span>{{$product->priceBrutto}}zł<span class="item-qty"> </span> </span>';
+	              product+='</span>';
+	              product+='</span>';
+	              product+='<span class="item-right">';
+	              product+='<button class="btn btn-xs btn-danger pull-right removeFromCart">x</button>';
+	              product+='</span>';
+	              product+='</span>';
+	           		product+='</li>';
+							if(data=='0'){
+								$('.dropdown-menu').prepend(product);
+								$('#item{{$product->id}} .item-qty').html('1');
+							}else{
+								$('#item{{$product->id}} .item-qty').html(parseInt($('#item{{$product->id}} .item-qty').html(),10)+1);
+							}
             },
             error: function (data) {
                 console.log('Error:', data);
@@ -121,12 +142,17 @@ $(document).ready(function(){
         });
 			}
     });
-	  $('.removeFromCart').click(function(){
+
+	  $('.removeFromCart').click(function(e){
+	  var product_id = $(this).val();
+		 e.preventDefault();
+		 console.log(product_id);
 			$.ajax({
 	            type: "post",
-	            url: url + '/remove/' + {{$product->id}},
+	            url: url + '/remove/' + product_id,
 	            success: function (data) {
 	                console.log(data);
+									$('.shopping-cart-counter').html(parseInt($('.shopping-cart-counter').html(),10)-1);
 	            },
 	            error: function (data) {
 	                console.log('Error:', data);

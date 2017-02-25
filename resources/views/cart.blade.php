@@ -44,7 +44,7 @@ Laravel5 | Strona glowna
     <button class="btn btn-primary add-to-cart">Dodaj do koszyka</button>
 	</div>
 	{{Cart::content()}}
-	
+
 </div>
 
 <script>
